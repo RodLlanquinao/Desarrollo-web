@@ -1,0 +1,16 @@
+# Node
+node_modules
+npm-debug.log*
+yarn-error.log*
+.pnpm-store
+# Env
+.env
+.env.*.local
+# Build outputs
+/dist
+/build
+coverage
+# OS/Editor
+.DS_Store
+*.swp
+.vscode/
