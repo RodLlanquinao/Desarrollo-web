@@ -21,9 +21,6 @@ El repositorio fue creado en GitHub como proyecto público orientado a portafoli
 
 Nombre del repositorio:
 
-
-
-
 Se decidió no generar archivos automáticos desde GitHub (README, licencia o .gitignore), ya que estos fueron creados manualmente en entorno local para tener control total sobre la configuración inicial.
 
 ---
@@ -41,3 +38,17 @@ Se realizaron los siguientes pasos:
   - `.editorconfig`
 - Primer commit estructural:
 
+
+---
+
+# 🧰 Hito M1 — Entorno de desarrollo (en progreso)
+
+Se añadieron herramientas para estandarizar el estilo del código y automatizar validaciones antes de cada commit:
+
+- **Prettier** (formato)
+- **ESLint** (reglas de calidad)
+- **lint-staged** (ejecuta validaciones solo sobre archivos en staging)
+- **Husky** (hook `pre-commit`)
+
+> Nota: la configuración de ESLint se encuentra en ajuste para soportar correctamente TypeScript en todo el monorepo.  
+> El objetivo es que `npm run lint` quede estable y que el pre-commit valide formato y reglas automáticamente.

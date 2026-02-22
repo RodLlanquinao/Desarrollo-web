@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import { prisma } from '../lib/prisma';
+import { Request, Response } from "express";
+import { prisma } from "../lib/prisma";
 
 export async function listarTareas(_req: Request, res: Response) {
-  const tareas = await prisma.tarea.findMany({ orderBy: { id: 'asc' } });
+  const tareas = await prisma.tarea.findMany({ orderBy: { id: "asc" } });
   res.json(tareas);
 }
 
@@ -13,14 +13,13 @@ export async function obtenerTareaPorId(req: Request, res: Response) {
     where: { id: tareaId },
   });
 
-  if (!tarea) return res.status(404).json({ message: 'No encontrada' });
+  if (!tarea) return res.status(404).json({ message: "No encontrada" });
 
   res.json(tarea);
 }
 
-
 export async function crearTarea(req: Request, res: Response) {
-  const titulo = req.body.titulo ?? '';
+  const titulo = req.body.titulo ?? "";
 
   const nueva = await prisma.tarea.create({
     data: { titulo, done: false },
@@ -43,7 +42,7 @@ export async function actualizarTarea(req: Request, res: Response) {
 
     res.json(actualizada);
   } catch {
-    return res.status(404).json({ message: 'No encontrada' });
+    return res.status(404).json({ message: "No encontrada" });
   }
 }
 
@@ -54,6 +53,6 @@ export async function eliminarTarea(req: Request, res: Response) {
     await prisma.tarea.delete({ where: { id: tareaId } });
     res.status(204).send();
   } catch {
-    return res.status(404).json({ message: 'No encontrada' });
+    return res.status(404).json({ message: "No encontrada" });
   }
 }
