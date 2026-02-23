@@ -52,3 +52,43 @@ Se añadieron herramientas para estandarizar el estilo del código y automatizar
 
 > Nota: la configuración de ESLint se encuentra en ajuste para soportar correctamente TypeScript en todo el monorepo.  
 > El objetivo es que `npm run lint` quede estable y que el pre-commit valide formato y reglas automáticamente.
+
+
+
+---
+
+# 🔌 Hito M2 — Desarrollo del Backend (API REST)
+
+En este hito se construyó el backend del proyecto utilizando **Node.js + Express + TypeScript**, comenzando con una API mínima funcional y luego aplicando una organización profesional basada en rutas y controladores.
+
+---
+
+## 🔹 M2.1 — API mínima funcional (CRUD en memoria)
+
+Se implementó una API REST básica que gestiona un recurso de ejemplo: `tareas`.
+
+### 🎯 Objetivo
+- Levantar un servidor HTTP con Express.
+- Implementar endpoints CRUD.
+- Probar manualmente el funcionamiento completo.
+
+### 📦 Dependencias instaladas (apps/api)
+
+- express
+- cors
+- morgan
+- typescript
+- ts-node
+- nodemon
+- @types/node
+- @types/express
+- @types/cors
+- @types/morgan
+
+Se configuró TypeScript mediante `tsc --init` y se ajustó `tsconfig.json` para permitir ejecución correcta con `ts-node`.
+
+### ▶️ Ejecución en desarrollo
+
+```bash
+cd apps/api
+npm run dev
