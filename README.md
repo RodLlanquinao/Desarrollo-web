@@ -92,3 +92,43 @@ Se configuró TypeScript mediante `tsc --init` y se ajustó `tsconfig.json` para
 ```bash
 cd apps/api
 npm run dev
+
+
+
+
+---
+
+# 🗄️ Hito M3 — Persistencia con Base de Datos (PostgreSQL + Prisma)
+
+En este hito se reemplazó la persistencia en memoria por una base de datos real utilizando **PostgreSQL** y **Prisma ORM**, logrando almacenamiento permanente de la información.
+
+---
+
+## 🔹 M3.1 — Base de datos con Docker
+
+Se utilizó Docker para levantar PostgreSQL de forma aislada y reproducible.
+
+Archivo `docker-compose.yml`:
+
+```yaml
+services:
+  db:
+    image: postgres:16
+    container_name: desarrollo-web-db
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: desarrollo_web
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
+
+
+
+---
+
+
