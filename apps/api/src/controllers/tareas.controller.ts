@@ -1,5 +1,10 @@
 import { Request, Response } from "express";
 import { prisma } from "../lib/prisma";
+import {
+  idParamSchema,
+  crearTareaSchema,
+  actualizarTareaSchema,
+} from "../lib/validators";
 
 export async function listarTareas(_req: Request, res: Response) {
   const tareas = await prisma.tarea.findMany({ orderBy: { id: "asc" } });
@@ -7,10 +12,10 @@ export async function listarTareas(_req: Request, res: Response) {
 }
 
 export async function obtenerTareaPorId(req: Request, res: Response) {
-  const tareaId = Number(req.params.id);
+  const { id } = idParamSchema.parse(req.params);
 
   const tarea = await prisma.tarea.findUnique({
-    where: { id: tareaId },
+    where: { id },
   });
 
   if (!tarea) return res.status(404).json({ message: "No encontrada" });
@@ -19,7 +24,7 @@ export async function obtenerTareaPorId(req: Request, res: Response) {
 }
 
 export async function crearTarea(req: Request, res: Response) {
-  const titulo = req.body.titulo ?? "";
+  const { titulo } = crearTareaSchema.parse(req.body);
 
   const nueva = await prisma.tarea.create({
     data: { titulo, done: false },
@@ -29,15 +34,17 @@ export async function crearTarea(req: Request, res: Response) {
 }
 
 export async function actualizarTarea(req: Request, res: Response) {
-  const tareaId = Number(req.params.id);
+  const { id } = idParamSchema.parse(req.params);
+  const body = actualizarTareaSchema.parse(req.body);
+
+  const data: { titulo?: string; done?: boolean } = {};
+  if (body.titulo !== undefined) data.titulo = body.titulo;
+  if (body.done !== undefined) data.done = body.done;
 
   try {
     const actualizada = await prisma.tarea.update({
-      where: { id: tareaId },
-      data: {
-        titulo: req.body.titulo,
-        done: req.body.done,
-      },
+      where: { id },
+      data,
     });
 
     res.json(actualizada);
@@ -47,10 +54,10 @@ export async function actualizarTarea(req: Request, res: Response) {
 }
 
 export async function eliminarTarea(req: Request, res: Response) {
-  const tareaId = Number(req.params.id);
+  const { id } = idParamSchema.parse(req.params);
 
   try {
-    await prisma.tarea.delete({ where: { id: tareaId } });
+    await prisma.tarea.delete({ where: { id } });
     res.status(204).send();
   } catch {
     return res.status(404).json({ message: "No encontrada" });
