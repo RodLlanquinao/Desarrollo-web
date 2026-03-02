@@ -1,114 +1,146 @@
 # Desarrollo Web
 
-Proyecto personal de aprendizaje enfocado en construir una base sólida de desarrollo web moderno, siguiendo un roadmap por hitos progresivos (backend, base de datos, frontend, autenticación, pruebas y despliegue).
+Proyecto personal enfocado en construir una base sólida de desarrollo web moderno, siguiendo un roadmap estructurado por hitos progresivos:
+
+- Backend profesional
+- Base de datos con ORM
+- Validaciones y manejo de errores
+- Frontend moderno (próximo hito)
+- Autenticación
+- Pruebas
+- Despliegue
+
+El objetivo es desarrollar el proyecto como si fuera un entorno profesional real, documentando cada etapa.
 
 ---
 
-## 📍 Estado del Proyecto
+# 📍 Estado Actual del Proyecto
 
-Actualmente el proyecto se encuentra en desarrollo.  
-Se han completado los primeros hitos relacionados con la inicialización y configuración base del repositorio.
+Actualmente el proyecto cuenta con:
+
+- ✔ Backend con Node.js + Express + TypeScript  
+- ✔ Arquitectura modular (routes + controllers + middlewares + lib)  
+- ✔ Base de datos PostgreSQL en Docker  
+- ✔ ORM Prisma  
+- ✔ Validaciones con Zod  
+- ✔ Manejo global de errores  
+- ✔ Persistencia real  
+
+El backend se encuentra listo para integración con frontend moderno (M4).
 
 ---
 
 # 🧱 Hito M0 — Inicialización del Proyecto
 
-El proyecto comenzó con la creación y configuración de un repositorio profesional utilizando Git como sistema de control de versiones.
+Se creó el repositorio como proyecto público orientado a portafolio profesional.
 
-### 🔹 Creación del repositorio
+## 🔹 Configuración inicial
 
-El repositorio fue creado en GitHub como proyecto público orientado a portafolio.
-
-Nombre del repositorio:
-
-Se decidió no generar archivos automáticos desde GitHub (README, licencia o .gitignore), ya que estos fueron creados manualmente en entorno local para tener control total sobre la configuración inicial.
-
----
-
-### 🔹 Configuración inicial en entorno local
-
-Se realizaron los siguientes pasos:
-
-- Creación de la carpeta del proyecto.
+- Creación manual del repositorio en GitHub.
 - Inicialización de Git con rama principal `main`.
 - Creación manual de los archivos base:
   - `README.md`
   - `LICENSE`
   - `.gitignore`
   - `.editorconfig`
-- Primer commit estructural:
+- Primer commit estructural del proyecto.
 
-
----
-
-# 🧰 Hito M1 — Entorno de desarrollo (en progreso)
-
-Se añadieron herramientas para estandarizar el estilo del código y automatizar validaciones antes de cada commit:
-
-- **Prettier** (formato)
-- **ESLint** (reglas de calidad)
-- **lint-staged** (ejecuta validaciones solo sobre archivos en staging)
-- **Husky** (hook `pre-commit`)
-
-> Nota: la configuración de ESLint se encuentra en ajuste para soportar correctamente TypeScript en todo el monorepo.  
-> El objetivo es que `npm run lint` quede estable y que el pre-commit valide formato y reglas automáticamente.
-
-
+Objetivo: establecer una base limpia y profesional desde el inicio.
 
 ---
 
-# 🔌 Hito M2 — Desarrollo del Backend (API REST)
+# 🧰 Hito M1 — Entorno de Desarrollo
 
-En este hito se construyó el backend del proyecto utilizando **Node.js + Express + TypeScript**, comenzando con una API mínima funcional y luego aplicando una organización profesional basada en rutas y controladores.
+Se configuró el entorno de desarrollo para trabajar con Node.js y TypeScript de forma correcta dentro de `apps/api`.
+
+## 🔹 Configuración realizada
+
+- Inicialización de proyecto Node dentro de `apps/api`.
+- Instalación de dependencias:
+  - TypeScript
+  - ts-node
+  - nodemon
+- Generación y configuración de `tsconfig.json`.
+- Script de desarrollo para ejecución automática:
+
+```bash
+npm run dev
+
+---
+
+# 🔌 Hito M2 — Backend API REST
+
+Se desarrolló una API REST utilizando:
+
+- Node.js
+- Express
+- TypeScript
 
 ---
 
 ## 🔹 M2.1 — API mínima funcional (CRUD en memoria)
 
-Se implementó una API REST básica que gestiona un recurso de ejemplo: `tareas`.
+Se implementó una API REST básica para el recurso **tareas**.
 
-### 🎯 Objetivo
-- Levantar un servidor HTTP con Express.
-- Implementar endpoints CRUD.
-- Probar manualmente el funcionamiento completo.
+### Endpoints implementados
 
-### 📦 Dependencias instaladas (apps/api)
+- GET `/api/tareas`
+- GET `/api/tareas/:id`
+- POST `/api/tareas`
+- PATCH `/api/tareas/:id`
+- DELETE `/api/tareas/:id`
 
-- express
-- cors
-- morgan
-- typescript
-- ts-node
-- nodemon
-- @types/node
-- @types/express
-- @types/cors
-- @types/morgan
+Inicialmente se utilizó almacenamiento en memoria para validar:
 
-Se configuró TypeScript mediante `tsc --init` y se ajustó `tsconfig.json` para permitir ejecución correcta con `ts-node`.
+- Flujo completo del CRUD
+- Manejo correcto de rutas
+- Uso adecuado de métodos HTTP
+- Pruebas manuales con Hoppscotch
 
-### ▶️ Ejecución en desarrollo
+---
 
-```bash
-cd apps/api
-npm run dev
+## 🔹 M2.2 — Refactor a Arquitectura Profesional
 
+Se reorganizó el backend para aplicar una estructura modular y escalable.
 
+### Estructura adoptada
+
+```text
+src/
+  index.ts
+  routes/
+  controllers/
+  middlewares/
+  lib/ 
+
+### Responsabilidades
+
+- index.ts → configuración del servidor y montaje de rutas
+
+- routes/ → definición de endpoints
+
+- controllers/ → lógica de negocio
+
+- lib/ → cliente Prisma
+
+- middlewares/ → validaciones y manejo de errores
+
+- Resultado: backend limpio, organizado y preparado para escalar.
 
 
 ---
 
-# 🗄️ Hito M3 — Persistencia con Base de Datos (PostgreSQL + Prisma)
+# 🗄️ Hito M3 — Persistencia con PostgreSQL + Prisma
 
-En este hito se reemplazó la persistencia en memoria por una base de datos real utilizando **PostgreSQL** y **Prisma ORM**, logrando almacenamiento permanente de la información.
+Se reemplazó el almacenamiento en memoria por persistencia real en base de datos.
 
 ---
 
-## 🔹 M3.1 — Base de datos con Docker
+## 🔹 M3.1 — Base de Datos con Docker
 
-Se utilizó Docker para levantar PostgreSQL de forma aislada y reproducible.
+Se utilizó Docker Compose para levantar PostgreSQL de forma aislada y reproducible.
 
-Archivo `docker-compose.yml`:
+### docker-compose.yml
 
 ```yaml
 services:
@@ -127,8 +159,122 @@ services:
 volumes:
   db_data:
 
+### Levantamiento
+´´´ docker compose up -d
+- Resultado
 
+ - Contenedor desarrollo-web-db ejecutándose
 
----
+ - Puerto 5432 expuesto
 
+ - Base de datos lista para conexión
 
+###🔹 M3.2 — Configuración de Prisma ORM
+
+- Se instaló Prisma dentro de apps/api:
+
+npm i prisma @prisma/client
+npx prisma init
+
+- Se configuró la variable de entorno:
+
+DATABASE_URL="postgresql://dev:dev@localhost:5432/desarrollo_web?schema=public"
+
+###🔹 M3.3 — Definición del Modelo
+
+- prisma/schema.prisma
+    model Tarea {
+      id        Int      @id @default(autoincrement())
+      titulo    String
+      done      Boolean  @default(false)
+      createdAt DateTime @default(now())
+      updatedAt DateTime @updatedAt
+    }
+
+- Se aplicó migración:
+
+- npx prisma migrate dev --name init_tareas
+
+### Resultado
+
+- Tabla Tarea creada en PostgreSQL
+
+- Prisma Client generado automáticamente
+
+###🔹 M3.4 — Integración con el Backend
+
+Se creó el cliente Prisma:
+
+import { PrismaClient } from '@prisma/client';
+export const prisma = new PrismaClient();
+
+Los controladores ahora utilizan:
+
+- findMany
+
+- findUnique
+
+- create
+
+- update
+
+- delete
+
+La información persiste incluso si el servidor se reinicia.
+
+###🔹 M3.5 — Validaciones con Zod
+
+Se incorporaron validaciones para evitar datos inválidos antes de llegar a la base de datos.
+
+Instalación
+npm i zod
+Ejemplo de validación
+import { z } from 'zod';
+
+export const crearTareaSchema = z.object({
+  titulo: z.string().min(1).max(200),
+});
+
+Se valida:
+
+- IDs numéricos y positivos
+
+- Títulos no vacíos
+
+- Actualizaciones con al menos un campo
+
+###🔹 M3.6 — Middleware Global de Errores
+
+Se implementó un middleware centralizado para manejar errores correctamente.
+
+- Errores de validación → 400 Bad Request
+
+- Errores internos → 500 Internal Server Error
+
+Esto garantiza:
+
+- Respuestas HTTP coherentes
+
+- Integración sencilla con frontend
+
+- Backend más profesional
+
+## 🧠 Resultado del Proyecto hasta M3
+
+El backend se encuentra en estado profesional con:
+
+- Arquitectura modular
+
+- Persistencia real en PostgreSQL
+
+- ORM moderno (Prisma)
+
+- Validaciones robustas
+
+- Manejo global de errores
+
+- Endpoints REST completos
+
+- Versionado coherente
+
+El sistema está listo para iniciar el siguiente hito.
