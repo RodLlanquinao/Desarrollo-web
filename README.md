@@ -278,3 +278,111 @@ El backend se encuentra en estado profesional con:
 - Versionado coherente
 
 El sistema está listo para iniciar el siguiente hito.
+
+
+---
+
+# 🌐 Hito M4 — Frontend Moderno (Inicio)
+
+## 🔹 Avances realizados
+
+### 1️⃣ Creación del frontend
+
+Se creó la aplicación frontend en:
+
+```text
+apps/web
+
+Utilizando:
+
+React
+
+Vite
+
+TypeScript
+
+Esto establece la base para construir una interfaz moderna que consumirá la API del backend.
+
+### 2️⃣ Limpieza del proyecto base
+
+Se eliminó contenido innecesario generado por defecto en Vite:
+
+Logos
+
+Contador de ejemplo
+
+CSS no utilizado
+
+Objetivo:
+
+Dejar una base limpia
+
+Evitar ruido innecesario
+
+Preparar el proyecto para desarrollo real
+
+### 3️⃣ Primera integración con la API
+
+Se implementó la primera versión de la interfaz en App.tsx.
+
+El frontend ahora:
+
+Obtiene datos desde la API
+
+Utiliza fetch para realizar peticiones HTTP
+
+Maneja estado con useState
+
+Ejecuta efectos con useEffect
+
+
+---
+
+
+## 🔹 M4 — Interacción completa con la API (Core)
+
+En este punto se completó la integración funcional entre el frontend y el backend, logrando operaciones completas sobre el recurso `tareas`.
+
+### Funcionalidades implementadas
+
+- Conexión entre frontend y API backend
+- Obtención de tareas desde el servidor (`GET`)
+- Creación de nuevas tareas (`POST`)
+- Actualización de estado de tareas (`PATCH`)
+- Eliminación de tareas (`DELETE`)
+
+### Detalle de operaciones
+
+- **GET `/api/tareas`**  
+  Carga inicial de tareas al montar la aplicación.
+
+- **POST `/api/tareas`**  
+  Permite crear nuevas tareas desde la interfaz.
+
+- **PATCH `/api/tareas/:id`**  
+  Permite cambiar el estado de una tarea (toggle done).
+
+- **DELETE `/api/tareas/:id`**  
+  Permite eliminar tareas existentes.
+
+---
+
+### 🖥️ Interfaz de usuario
+
+Se implementó una interfaz básica funcional que permite:
+
+- Visualizar lista de tareas
+- Crear nuevas tareas
+- Marcar tareas como completadas
+- Eliminar tareas
+
+---
+
+### 🎯 Resultado
+
+El frontend y backend están completamente integrados, permitiendo interacción full stack en tiempo real.
+
+Flujo:
+
+```text
+Usuario → React → fetch → Express → Prisma → PostgreSQL → respuesta → UI actualizada
