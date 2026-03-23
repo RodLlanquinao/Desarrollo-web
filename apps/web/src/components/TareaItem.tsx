@@ -12,11 +12,11 @@ type TareaItemProps = {
 
 function TareaItem({ tarea, onToggle, onDelete }: TareaItemProps) {
   return (
-    <li className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+    <li className="flex justify-between items-center bg-gray-50 p-3 rounded-lg hover:bg-gray-100 transition">
       <span
         onClick={() => onToggle(tarea)}
-        className={`cursor-pointer ${
-          tarea.done ? "line-through text-gray-400" : ""
+        className={`cursor-pointer select-none ${
+          tarea.done ? "line-through text-gray-400" : "text-gray-800"
         }`}
       >
         {tarea.titulo} {tarea.done ? "✔" : "❌"}
@@ -24,7 +24,7 @@ function TareaItem({ tarea, onToggle, onDelete }: TareaItemProps) {
 
       <button
         onClick={() => onDelete(tarea.id)}
-        className="text-red-500 hover:text-red-700"
+        className="px-2 py-1 rounded-md text-red-500 hover:text-red-700 hover:bg-red-50 transition"
       >
         🗑
       </button>

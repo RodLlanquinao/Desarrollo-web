@@ -19,6 +19,9 @@ function App() {
   const [titulo, setTitulo] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const total = tareas.length;
+  const completadas = tareas.filter((t) => t.done).length;
+  const pendientes = total - completadas;
 
   useEffect(() => {
     cargarTareas();
@@ -86,7 +89,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center p-6">
-      <div className="w-full max-w-xl bg-white shadow-lg rounded-xl p-6">
+      <div className="w-full max-w-xl bg-white shadow-xl rounded-2xl p-6">
 
         <h1 className="text-3xl font-bold mb-4 text-center">
           Desarrollo Web
@@ -108,7 +111,21 @@ function App() {
           <p className="mb-4 text-sm text-red-500">{error}</p>
         )}
 
-        <h2 className="text-xl font-semibold mb-2">Lista de tareas</h2>
+        <div className="flex justify-between items-center mb-3">
+          <h2 className="text-xl font-semibold">Lista de tareas</h2>
+
+          <div className="flex gap-3 text-sm">
+            <span className="bg-gray-100 px-2 py-1 rounded">
+              Total: {total}
+            </span>
+            <span className="bg-green-100 text-green-700 px-2 py-1 rounded">
+              ✔ {completadas}
+            </span>
+            <span className="bg-red-100 text-red-700 px-2 py-1 rounded">
+              ❌ {pendientes}
+            </span>
+          </div>
+        </div>
 
         {tareas.length === 0 ? (
           <p className="text-gray-500 bg-gray-50 p-4 rounded-lg">
