@@ -1,4 +1,12 @@
 import { FormEvent, useEffect, useState } from "react";
+import {
+  getTareas,
+  createTarea,
+  updateTarea,
+  deleteTarea,
+} from "./services/tareas.service";
+import TareaForm from "./components/TareaForm";
+import TareaItem from "./components/TareaItem";
 
 type Tarea = {
   id: number;
@@ -9,6 +17,8 @@ type Tarea = {
 function App() {
   const [tareas, setTareas] = useState<Tarea[]>([]);
   const [titulo, setTitulo] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     cargarTareas();
@@ -16,100 +26,108 @@ function App() {
 
   async function cargarTareas() {
     try {
-      const res = await fetch("http://localhost:3000/api/tareas");
-      const data = await res.json();
+      setLoading(true);
+      setError(null);
+
+      const data = await getTareas();
       setTareas(data);
-    } catch (error) {
-      console.error("Error al cargar tareas:", error);
+    } catch (err) {
+      setError("No se pudieron cargar las tareas");
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   }
 
-  async function crearTarea(e: FormEvent) {
+  async function crearNuevaTarea(e: React.FormEvent) {
     e.preventDefault();
 
     if (!titulo.trim()) return;
 
     try {
-      const res = await fetch("http://localhost:3000/api/tareas", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ titulo }),
-      });
+      setError(null);
 
-      if (!res.ok) {
-        throw new Error("No se pudo crear la tarea");
-      }
-
+      await createTarea(titulo);
       setTitulo("");
-      cargarTareas();
-    } catch (error) {
-      console.error("Error al crear tarea:", error);
+      await cargarTareas();
+    } catch (err) {
+      setError("No se pudo crear la tarea");
+      console.error(err);
     }
   }
 
   async function toggleTarea(t: Tarea) {
-  try {
-    await fetch(`http://localhost:3000/api/tareas/${t.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ done: !t.done }),
-    });
+    try {
+      setError(null);
 
-      cargarTareas();
-    } catch (error) {
-      console.error("Error al actualizar tarea:", error);
+      await updateTarea(t.id, { done: !t.done });
+      await cargarTareas();
+    } catch (err) {
+      setError("No se pudo actualizar la tarea");
+      console.error(err);
     }
   }
 
-  async function eliminarTarea(id: number) {
-  try {
-    await fetch(`http://localhost:3000/api/tareas/${id}`, {
-      method: "DELETE",
-    });
+  async function eliminarTareaPorId(id: number) {
+    const confirmado = window.confirm("¿Seguro que quieres eliminar esta tarea?");
 
-      cargarTareas();
-    } catch (error) {
-      console.error("Error al eliminar:", error);
+    if (!confirmado) return;
+
+    try {
+      setError(null);
+
+      await deleteTarea(id);
+      await cargarTareas();
+    } catch (err) {
+      setError("No se pudo eliminar la tarea");
+      console.error(err); 
     }
   }
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>Desarrollo Web</h1>
+    <div className="min-h-screen bg-gray-100 flex justify-center p-6">
+      <div className="w-full max-w-xl bg-white shadow-lg rounded-xl p-6">
 
-      <h2>Crear tarea</h2>
-      <form onSubmit={crearTarea}>
-        <input
-          type="text"
-          value={titulo}
-          onChange={(e) => setTitulo(e.target.value)}
-          placeholder="Escribe una tarea"
+        <h1 className="text-3xl font-bold mb-4 text-center">
+          Desarrollo Web
+        </h1>
+
+        <h2 className="text-xl font-semibold mb-2">Crear tarea</h2>
+
+        <TareaForm
+          titulo={titulo}
+          setTitulo={setTitulo}
+          onSubmit={crearNuevaTarea}
         />
-        <button type="submit" style={{ marginLeft: "0.5rem" }}>
-          Crear
-        </button>
-      </form>
 
-      <h2>Lista de tareas</h2>
+        {loading && (
+          <p className="mb-4 text-sm text-gray-500">Cargando tareas...</p>
+        )}
 
-      <ul>
-        {tareas.map((t) => (
-          <li key={t.id}>
-            <span
-              onClick={() => toggleTarea(t)}
-              style={{ cursor: "pointer", marginRight: "10px" }}
-            >
-              {t.titulo} {t.done ? "✔" : "❌"}
-            </span>
+        {error && (
+          <p className="mb-4 text-sm text-red-500">{error}</p>
+        )}
 
-            <button onClick={() => eliminarTarea(t.id)}>🗑</button>
-          </li>
-        ))}
-      </ul>
+        <h2 className="text-xl font-semibold mb-2">Lista de tareas</h2>
+
+        {tareas.length === 0 ? (
+          <p className="text-gray-500 bg-gray-50 p-4 rounded-lg">
+            Aún no tienes tareas creadas.
+          </p>
+        ) : (
+          <ul className="space-y-2">
+            {tareas.map((t) => (
+              <TareaItem
+                key={t.id}
+                tarea={t}
+                onToggle={toggleTarea}
+                onDelete={eliminarTareaPorId}
+              />
+            ))}
+          </ul>
+        )}
+
+      </div>
     </div>
   );
 }
